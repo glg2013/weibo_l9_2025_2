@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/home', [StaticPagesController::class, 'home'])->name('home');
 Route::get('/', [StaticPagesController::class, 'home'])->name('home');
 Route::get('/help', [StaticPagesController::class, 'help'])->name('help');
 Route::get('/about', [StaticPagesController::class, 'about'])->name('about');
