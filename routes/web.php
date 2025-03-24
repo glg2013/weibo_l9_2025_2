@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\StaticPagesController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
@@ -23,4 +24,9 @@ Route::get('signup', [UsersController::class, 'create'])->name('signup');
 
 // 用户
 Route::resource('users', UsersController::class);
+
+// 会话
+Route::get('login', [SessionsController::class, 'create'])->name('login');
+Route::post('login', [SessionsController::class, 'store'])->name('login');
+Route::delete('logout', [SessionsController::class, 'destroy'])->name('logout');
 
