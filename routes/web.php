@@ -44,3 +44,8 @@ Route::post('password/reset', [PasswordController::class, 'reset'])->name('passw
 
 // 微博
 Route::resource('statuses', StatusesController::class)->only(['store', 'destroy']);
+
+// 关注的人
+Route::get('/users/{user}/followings', [UsersController::class, 'followings'])->name('users.followings');
+// 粉丝列表
+Route::get('/users/{user}/followers', [UsersController::class, 'followers'])->name('users.followers');
