@@ -67,7 +67,9 @@ class User extends Authenticatable
     // 将当前用户发布过的所有微博从数据库中取出，并根据创建时间来倒序排序
     public function feed()
     {
-        return $this->statuses()->latest();
+        $user_ids = $this->followings()->get()->pluck('id')->toArray();
+        array_push($user_ids, $this->id);
+        return $this->statuses()->whereIn('user_id', $user_ids)->with('user')->latest();
     }
 
     // 获取粉丝关系列表（这里是要去获取当前用户的粉丝数据，所以绑定的模型 user 相当于是粉丝的数据模型，所以第三个参数，相当于是在粉丝表中的外键）
