@@ -36,7 +36,7 @@ class UsersController extends Controller
 
     public function show(User $user)
     {
-        $statuses = $user->statuses()->latest()->paginate(10);
+        $statuses = $user->statuses()->with('user')->latest()->paginate(1);
         return view('users.show', compact('user', 'statuses'));
     }
 
