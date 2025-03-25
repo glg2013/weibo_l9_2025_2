@@ -69,4 +69,37 @@ class User extends Authenticatable
     {
         return $this->statuses()->latest();
     }
+
+    // 获取粉丝关系列表（这里是要去获取当前用户的粉丝数据，所以绑定的模型 user 相当于是粉丝的数据模型，所以第三个参数，相当于是在粉丝表中的外键）
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id');
+    }
+
+    // 获取用户关注人列表（这里是要去获取关注的人的数据，所以绑定的模型 user 相当于是用户的模型）
+    public function followings()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
+    }
+
+    public function follow($user_ids)
+    {
+        if ( ! is_array($user_ids)) {
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->sync($user_ids, false);
+    }
+
+    public function unfollow($user_ids)
+    {
+        if ( ! is_array($user_ids)) {
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->detach($user_ids);
+    }
+
+    public function isFollowing($user_id)
+    {
+        return $this->followings->contains($user_id);
+    }
 }
