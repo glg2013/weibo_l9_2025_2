@@ -12,6 +12,14 @@ use Illuminate\Support\Str;
 
 class PasswordController extends Controller
 {
+    public function __construct()
+    {
+        // 限流，限制每 10 分钟最多请求 3 次
+        $this->middleware('throttle:3,10')->only([
+            'sendResetLinkEmail'
+        ]);
+    }
+
     public function showLinkRequestForm()
     {
         return view('auth.passwords.email');
